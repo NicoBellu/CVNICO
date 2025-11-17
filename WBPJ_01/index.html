@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Junior Developer - Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      color: #222;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    p.description {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      line-height: 1.5;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .links a {
+      text-decoration: none;
+      margin: 0 10px;
+      color: #333;
+      border-bottom: 1px solid #333;
+      padding-bottom: 2px;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      color: #000;
+      border-color: #000;
+    }
+
+    .skills {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .skills h2 {
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .skills-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .skills-list span {
+      background: #eaeaea;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body class="loaded">
+    <header style="padding: 20px; background: #eaeaea; display: flex; justify-content: flex-end;">
+      <button id="menuBtn" style="background:none;border:none;font-size:20px;cursor:pointer;">☰ Menu</button>
+    </header>
+  <header>
+    <h1>Nicolae Farcasiu</h1>
+    <p class="description">
+      Sono un studente di ingegneria informatica presso l'universita di Roma Tre, questo è un esempio di quelle che riesco a fare fino a ora, ci sono tre diversi progetti tra le quali mi sono svagato creando quello che più mi divertiva attraverso le mie capacità
+    </p>
+
+    <div class="links">
+      <a href="https://github.com/NicoBellu" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/nico-farcasiu-07047828b" target="_blank">LinkedIn</a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=farcasiu.nico@gmail.com&su=Richiesta%20di%20contatto" target="_blank">Email</a>
+    </div>
+    
+  </header>
+
+  <section class="skills">
+    <h2>Competenze</h2>
+    <div class="skills-list">
+      <span>HTML</span>
+      <span>CSS</span>
+      <span>JavaScript</span>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("loaded");
+    });
+  </script>
+  <div id="sidebar" style="position: fixed; top: 0; left: -200px; width: 200px; height: 100%; background: #ddd; padding-top: 60px; transition: left 0.3s ease;">
+    <a href="ANIME.html" style="display:block;padding:10px;">Animazione</a>
+    <a href="CLICK.html" style="display:block;padding:10px;">Click game</a>
+    <a href="LOGIN.html" style="display:block;padding:10px;">Login Simulazione</a>
+  </div>
+  <script>
+    document.getElementById('menuBtn').addEventListener('click', function() {
+      var sb = document.getElementById('sidebar');
+      sb.style.left = (sb.style.left === '0px') ? '-200px' : '0px';
+    });
+  </script>
+</body>
+</html>
