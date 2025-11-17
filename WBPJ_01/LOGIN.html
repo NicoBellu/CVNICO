@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulazione Login Sicurezza</title>
+  <style>
+    body { margin:0; padding:0; font-family:Arial,sans-serif; background:#f7f7f7; display:flex; justify-content:center; align-items:center; height:100vh; }
+    header { position:absolute; top:12px; left:12px; }
+    header a { color:#4363d8; text-decoration:none; font-weight:600; }
+    .login-card { background:#fff; padding:30px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); width:320px; text-align:center; }
+    input { width:100%; padding:10px; margin:10px 0; border-radius:8px; border:1px solid #ccc; }
+    button { padding:10px 15px; border-radius:8px; border:none; background:#4363d8; color:white; cursor:pointer; width:100%; }
+    .feedback { font-size:14px; color:#e6194b; margin-top:10px; min-height:18px; }
+    .disabled { opacity:0.6; cursor:not-allowed; }
+  </style>
+</head>
+<body>
+  <header><a href="HOME.html">← Torna alla Home</a></header>
+
+  <div class="login-card">
+    <h2>Simulazione Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginBtn">Login</button>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const feedback = document.getElementById('feedback');
+    const passwordInput = document.getElementById('password');
+
+    let attempts = 0;
+    const maxAttempts = 3;
+    const blockTime = 30;
+
+    function checkPassword(password) {
+      const lengthReq = password.length >= 8;
+      const upperReq = /[A-Z]/.test(password);
+      const numberReq = /[0-9]/.test(password);
+      const symbolReq = /[!@#$%^&*]/.test(password);
+      return lengthReq && upperReq && numberReq && symbolReq;
+    }
+
+    function blockLogin() {
+      loginBtn.disabled = true;
+      loginBtn.classList.add('disabled');
+      feedback.textContent = `Troppi tentativi! Riprova tra ${blockTime} secondi.`;
+      let countdown = blockTime;
+      const interval = setInterval(() => {
+        countdown--;
+        feedback.textContent = `Troppi tentativi! Riprova tra ${countdown} secondi.`;
+        if (countdown <= 0) {
+          clearInterval(interval);
+          loginBtn.disabled = false;
+          loginBtn.classList.remove('disabled');
+          feedback.textContent = '';
+          attempts = 0;
+        }
+      }, 1000);
+    }
+
+    loginBtn.addEventListener('click', () => {
+      const password = passwordInput.value;
+      if (!checkPassword(password)) {
+        attempts++;
+        feedback.textContent = `Password non sicura! Tentativo ${attempts}/${maxAttempts}`;
+        if (attempts >= maxAttempts) {
+          blockLogin();
+        }
+      } else {
+        feedback.style.color = 'green';
+        feedback.textContent = 'Accesso simulato con successo!';
+        attempts = 0;
+      }
+    });
+  </script>
+</body>
+</html>

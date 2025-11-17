@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gioco - Clicca il Quadrato</title>
+  <style>
+    body { margin:0; padding:0; font-family:Arial,sans-serif; background:#f7f7f7; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
+    header{position:absolute;top:12px;left:12px}
+    a{color:#4363d8;text-decoration:none;font-weight:600}
+
+    .game-card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08);width:360px;max-width:90%;text-align:center}
+    .score{font-size:20px;margin-bottom:12px}
+    .play-area{position:relative;background:#eef3ff;border-radius:8px;height:260px;overflow:hidden}
+    #target{position:absolute;width:60px;height:60px;background:linear-gradient(135deg,#ff6b6b,#f58231);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;user-select:none; transition: transform 0.2s;}
+    .controls{display:flex;gap:8px;justify-content:center;margin-top:14px}
+    button{padding:8px 12px;border-radius:8px;border:1px solid #ddd;background:white;cursor:pointer}
+  </style>
+</head>
+<body>
+  <header><a href="HOME.html">← Torna alla Home</a></header>
+
+  <div class="game-card">
+    <h2>Gioco: Clicca il quadrato</h2>
+    <div class="score">Punteggio: <span id="score">0</span></div>
+    <div class="play-area" id="playArea">
+      <div id="target">Clic</div>
+    </div>
+    <div class="controls">
+      <button id="startBtn">Avvia</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    const target = document.getElementById('target');
+    const playArea = document.getElementById('playArea');
+    const scoreEl = document.getElementById('score');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let score = 0;
+    let running = false;
+    let moveInterval;
+    let minSize = 40, maxSize = 90;
+
+    function placeTargetRandom() {
+      const areaRect = playArea.getBoundingClientRect();
+      const size = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
+      target.style.width = size + 'px';
+      target.style.height = size + 'px';
+      const maxX = areaRect.width - size;
+      const maxY = areaRect.height - size;
+      const x = Math.floor(Math.random() * Math.max(0, maxX));
+      const y = Math.floor(Math.random() * Math.max(0, maxY));
+      target.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function updateScore() {
+      scoreEl.textContent = score;
+    }
+
+    target.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!running) return;
+      score += 1;
+      updateScore();
+    });
+
+    startBtn.addEventListener('click', () => {
+      running = !running;
+      startBtn.textContent = running ? 'Pausa' : 'Avvia';
+      if (running) {
+        placeTargetRandom();
+        moveInterval = setInterval(placeTargetRandom, 1500); // cambia posizione ogni 1.5s
+      } else {
+        clearInterval(moveInterval);
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      score = 0;
+      running = false;
+      startBtn.textContent = 'Avvia';
+      updateScore();
+      clearInterval(moveInterval);
+      target.style.transform = 'translate(50%, 50%)';
+    });
+
+    window.addEventListener('load', () => {
+      target.style.transform = 'translate(50%, 50%)';
+      updateScore();
+    });
+  </script>
+</body>
+</html>
